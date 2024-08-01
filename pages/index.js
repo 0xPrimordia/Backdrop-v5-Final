@@ -155,21 +155,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white text-center py-4 w-full">
-        <p>Built with ❤️ by 0xhashbrown & CaptianCrunch at <a href="https://0xPrimordia.xyz" className="text-blue-400">0xPrimordia.xyz</a></p>
-        {/* Place this tag where you want the button to render. */}
-        <a className="github-button" href="https://github.com/buttons/github-buttons/issues" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-issue-opened" data-size="large" aria-label="Issue buttons/github-buttons on GitHub">Issue</a>
-        {/* Email Form */}
-        <form name="contact" method="POST" data-netlify="true" className="mt-4">
-          <input type="hidden" name="form-name" value="contact" />
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email</label>
-            <input type="email" id="email" name="email" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Enter your email" required />
-          </div>
-          <button type="submit" className="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-700 mt-2">Subscribe</button>
-        </form>
-      </footer>
     </div>
   );
 }
