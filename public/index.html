@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeCV.ai</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        #terminal {
+            background-color: black;
+            color: green;
+            font-family: monospace;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-y: auto;
+            height: 150px;
+        }
+
+        .terminal-line {
+            animation: typing 2s steps(40, end);
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        .blinking {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to {
+                visibility: hidden;
+            }
+            50% {
+                visibility: visible;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <div class="container mx-auto p-4 flex-grow">
+        <div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
+            <img class="mb-10" height="120px" width="255px" src="/mecv_logo.svg" />
+            <br/>
+            <form id="repoForm" class="space-y-4">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">GitHub Username</label>
+                    <input type="text" id="username" name="username" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Enter your Github Username" required>
+                </div>
+                <div>
+                    <label for="repo" class="block text-sm font-medium text-gray-700">Repository Name</label>
+                    <input type="text" id="repo" name="repo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Enter your Github Repo" required>
+                </div>
+                <div>
+                    <label for="language" class="block text-sm font-medium text-gray-700">Language (Optional)</label>
+                    <select id="language" name="language" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        <option value="">Auto-detect</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                        <option value="csharp">C#</option>
+                        <option value="cpp">C++</option>
+                        <option value="php">PHP</option>
+                        <option value="ruby">Ruby</option>
+                        <option value="go">Go</option>
+                        <option value="swift">Swift</option>
+                        <option value="kotlin">Kotlin</option>
+                        <option value="solidity">Solidity</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-black text-white py-2 px-4 rounded-md shadow-sm hover:bg-black">Evaluate</button>
+            </form>
+            <div id="terminal" class="bg-black text-green-300 p-4 mt-6 rounded-md h-48 overflow-auto font-mono">
+                <span class="blinking">.</span>
+            </div>
+            <div id="results" class="mt-6"></div>
+            <footer class="bg-black text-white text-center p-2 mt-6 w-full">
+                <p>Built w/❤️ by 0xHashbrown & CaptianCrunch at <a href="https://0xPrimordia.xyz" class="text-blue-400">0xPrimordia.xyz</a>
+                    <!--<a class="github-button" href="https://github.com/0xprimordia/MeCVai" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" aria-label="Star 0xprimordia/MeCVai on GitHub">Star</a> -->
+                </p>
+                
+            </footer>
+        </div>
+        
+    </div>
+    <!-- Footer -->
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script>
+        const languageColors = {
+            javascript: 'bg-yellow-300',
+            python: 'bg-blue-300',
+            java: 'bg-red-300',
+            csharp: 'bg-purple-300',
+            cpp: 'bg-green-300',
+            php: 'bg-indigo-300',
+            ruby: 'bg-pink-300',
+            go: 'bg-teal-300',
+            swift: 'bg-orange-300',
+            kotlin: 'bg-blue-400',
+            solidity: 'bg-gray-400'
+        };
+
+        const featureColors = {
+            'module.exports': 'bg-red-200',
+            'require': 'bg-blue-200',
+            'http.createServer': 'bg-green-200',
+            'async': 'bg-yellow-200',
+            'await': 'bg-purple-200',
+            'Promise': 'bg-orange-200',
+            'middleware': 'bg-pink-200',
+            'class': 'bg-teal-200',
+            'let': 'bg-gray-200',
+            'const': 'bg-indigo-200',
+            'custom middleware': 'bg-red-300',
+            'stream': 'bg-blue-300',
+            'performance optimization': 'bg-green-300',
+            'WebSocket': 'bg-yellow-300',
+            'def ': 'bg-purple-300',
+            'open(': 'bg-orange-300',
+            'with open': 'bg-pink-300',
+            'list comprehension': 'bg-teal-300',
+            'decorator': 'bg-gray-300',
+            'context manager': 'bg-indigo-300',
+            'Flask': 'bg-red-400',
+            'Django': 'bg-blue-400',
+            'metaclass': 'bg-green-400',
+            'generator': 'bg-yellow-400',
+            'asyncio': 'bg-purple-400',
+            'TensorFlow': 'bg-orange-400',
+            'PyTorch': 'bg-pink-400',
+        };
+
+        const proficiencyColors = {
+            beginner: 'bg-green-200',
+            intermediate: 'bg-yellow-200',
+            advanced: 'bg-red-200'
+        };
+
+        document.getElementById('repoForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const repo = document.getElementById('repo').value;
+            const language = document.getElementById('language').value;
+            const resultsDiv = document.getElementById('results');
+            const terminalDiv = document.getElementById('terminal');
+            terminalDiv.innerHTML = '';
+            resultsDiv.innerHTML = '';
+
+            const terminalLines = [
+                'Fetching repository...',
+                'Detecting language...',
+                'Evaluating code...'
+            ];
+
+            terminalLines.forEach((line, index) => {
+                setTimeout(() => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'terminal-line';
+                    lineDiv.textContent = line;
+                    terminalDiv.appendChild(lineDiv);
+                    terminalDiv.scrollTop = terminalDiv.scrollHeight;
+                }, index * 2000);
+            });
+
+            try {
+                const response = await fetch(`/api/evaluate?owner=${username}&repo=${repo}&language=${language}`);
+                const data = await response.json();
+                setTimeout(() => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'terminal-line';
+                    lineDiv.textContent = 'Analysis complete!';
+                    terminalDiv.appendChild(lineDiv);
+                    terminalDiv.scrollTop = terminalDiv.scrollHeight;
+
+                    if (response.ok && Array.isArray(data.results)) {
+                        resultsDiv.innerHTML = data.results.map(result => `
+                            <div class="mb-4">
+                                <span class="inline-block px-3 py-1 ${languageColors[result.language]} text-white rounded-full">${result.language}</span>
+                                <div class="inline-block px-3 py-1 ${proficiencyColors[result.classification]} text-gray-800 rounded-full ml-2">${result.classification}</div>
+                                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-2">
+                                    <strong class="font-bold">${result.language}:</strong>
+                                    <span class="block sm:inline">This repo is classified as: ${result.classification}</span>
+                                </div>
+                                <div class="mt-2">
+                                    <strong class="font-bold">Features used:</strong>
+                                    <div class="mt-2">
+                                        ${result.elements.map(element => `
+                                            <span class="inline-block px-3 py-1 ${featureColors[element] || 'bg-gray-200'} text-gray-800 rounded-full mr-2 mt-2">${element}</span>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        resultsDiv.innerHTML = `<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"><strong class="font-bold">Error!</strong><span class="block sm:inline">${data.error}</span></div>`;
+                    }
+                }, terminalLines.length * 2000);
+            } catch (error) {
+                setTimeout(() => {
+                    const lineDiv = document.createElement('div');
+                    lineDiv.className = 'terminal-line';
+                    lineDiv.textContent = `Error: ${error.message}`;
+                    terminalDiv.appendChild(lineDiv);
+                    terminalDiv.scrollTop = terminalDiv.scrollHeight;
+                }, terminalLines.length * 2000);
+            }
+        });
+
+        // Add blinking period on page load
+        window.addEventListener('load', () => {
+            const terminalDiv = document.getElementById('terminal');
+            const blinkingPeriod = document.createElement('span');
+            blinkingPeriod.className = 'blinking';
+            blinkingPeriod.textContent = '.';
+            terminalDiv.appendChild(blinkingPeriod);
+        });
+    </script>
+</body>
+</html>
