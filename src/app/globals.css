@@ -77,3 +77,40 @@ body {
     text-wrap: balance;
   }
 }
+#terminal {
+  background-color: black;
+  color: green;
+  font-family: monospace;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-y: auto;
+  height: 150px;
+}
+
+.terminal-line {
+  animation: typing 2s steps(40, end);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@keyframes typing {
+  from {
+      width: 0;
+  }
+  to {
+      width: 100%;
+  }
+}
+
+.blinking {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to {
+      visibility: hidden;
+  }
+  50% {
+      visibility: visible;
+  }
+}

@@ -5,45 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MeCV.ai</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        #terminal {
-            background-color: black;
-            color: green;
-            font-family: monospace;
-            padding: 10px;
-            border-radius: 5px;
-            overflow-y: auto;
-            height: 150px;
-        }
-
-        .terminal-line {
-            animation: typing 2s steps(40, end);
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        @keyframes typing {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
-        }
-
-        .blinking {
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink {
-            from, to {
-                visibility: hidden;
-            }
-            50% {
-                visibility: visible;
-            }
-        }
-    </style>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="MeCV.ai" />
+    <meta property="og:description" content="Evaluate your GitHub repositories with MeCV.ai" />
+    <meta property="og:image" content="/screen.png" />
+    <meta property="og:url" content="https://mecvai-app.netlify.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MeCV.ai" />
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MeCV.ai" />
+    <meta name="twitter:description" content="Evaluate your GitHub repositories with MeCV.ai" />
+    <meta name="twitter:image" content="https://mecvai-app.netlify.app/screenshot.png" />
+    <meta name="twitter:site" content="@yourtwitterhandle" />
+    <!-- Other Important Meta Tags -->
+    <meta name="description" content="MeCV.ai helps you evaluate your GitHub repositories by detecting languages, classifying proficiency, and identifying features used." />
+    <meta name="keywords" content="GitHub, repository, evaluation, language detection, proficiency classification, feature identification" />
+    <meta name="author" content="0xhashbrown & CaptianCrunch" />
 </head>
 <body class="bg-gray-100 flex flex-col min-h-screen">
     <div class="container mx-auto p-4 flex-grow">
@@ -93,8 +71,8 @@
     </div>
     <!-- Footer -->
 
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Place this tag in your head or just before your close body tag. 
+    <script async defer src="https://buttons.github.io/buttons.js"></script>-->
     <script>
         const languageColors = {
             javascript: 'bg-yellow-300',
